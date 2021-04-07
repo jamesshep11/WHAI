@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment1
 {
@@ -12,6 +10,12 @@ namespace Assignment1
     {
         static ArrayList maze = new ArrayList();
         static ArrayList paths;
+        static ArrayList solPath;
+        static HashSet<Position> explored;
+
+        static Stopwatch timer = new Stopwatch();
+        static Solution sol = new Solution();
+        static int memory = 1;
 
         static void Main(string[] args) {
             // Choose a maze
@@ -39,6 +43,28 @@ namespace Assignment1
                 case 4: found = ItDeep();
                     break;
             }
+
+            sol.memory = memory;
+            sol.nodesExplored = explored.Count;
+            sol.pathLength = solPath.Count;
+            sol.executionTime = timer.ElapsedTicks;
+            sol.cost = 0;
+            foreach (Position pos in solPath) {
+                sol.cost += pos.cost;
+            }
+
+            // show path in map
+            for (int x = 0; x < maze.Count - 1; x++)
+                for (int y = 0; y < ((ArrayList)maze[x]).Count; y++)
+                    if ((int)((ArrayList)maze[x])[y] != 0 && !arrayListContains(new Position(x, y), solPath))
+                        ((ArrayList)maze[x])[y] = null;
+
+            // Display stats
+            Console.WriteLine("Memory: " + sol.memory + "\n" +
+                "Nodes Explored: " + sol.nodesExplored + "\n" +
+                "Path Length: " + sol.pathLength + "\n" +
+                "Execution Time: " + sol.executionTime + "\n" +
+                "Cost: " + sol.cost + "\n");
 
             // Display the final path
             if (found) {
@@ -75,8 +101,9 @@ namespace Assignment1
         }
 
         static bool BFS() {
+            timer.Restart();
             Queue<Position>frontier = new Queue<Position>();
-            HashSet<Position> explored = new HashSet<Position>();
+            explored = new HashSet<Position>();
             paths = new ArrayList();
 
             // Add initial State to frontier
@@ -117,23 +144,20 @@ namespace Assignment1
                 foreach (Position pos in tempFront)
                     if ((int)((ArrayList)maze[pos.x])[pos.y] > 0 && !queueContains(pos, frontier) && !hashContains(pos, explored))
                         frontier.Enqueue(pos);
+                if (frontier.Count > memory)
+                    memory = frontier.Count;
             }
+            timer.Stop();
 
             // Found the goal
             if (queueContains(goal, frontier)) {
                 // Find the final path
-                ArrayList path = new ArrayList();
+                solPath = new ArrayList();
                 foreach (ArrayList list in paths)
                     if (canReach(goal, (Position)list[list.Count - 1])) {
-                        path = list;
+                        solPath = list;
                         break;
                     }
-
-                // Display path
-                for (int x = 0; x < maze.Count - 1; x++)
-                    for (int y = 0; y < ((ArrayList)maze[x]).Count; y++)
-                        if ((int)((ArrayList)maze[x])[y] != 0 && !arrayListContains(new Position(x, y), path))
-                            ((ArrayList)maze[x])[y] = null;
 
                 return true;
             }
@@ -143,8 +167,9 @@ namespace Assignment1
         }
 
         static bool DFS() {
+            timer.Restart();
             Stack<Position> frontier = new Stack<Position>();
-            HashSet<Position> explored = new HashSet<Position>();
+            explored = new HashSet<Position>();
             paths = new ArrayList();
 
             // Add initial State to frontier
@@ -185,23 +210,20 @@ namespace Assignment1
                 foreach (Position pos in tempFront)
                     if ((int)((ArrayList)maze[pos.x])[pos.y] > 0 && !stackContains(pos, frontier) && !hashContains(pos, explored))
                         frontier.Push(pos);
+                if (frontier.Count > memory)
+                    memory = frontier.Count;
             }
+            timer.Stop();
 
             // Found the goal
             if (stackContains(goal, frontier)) {
                 // Find the final path
-                ArrayList path = new ArrayList();
+                solPath = new ArrayList();
                 foreach (ArrayList list in paths)
                     if (canReach(goal, (Position)list[list.Count - 1])) {
-                        path = list;
+                        solPath = list;
                         break;
                     }
-
-                // Display path
-                for (int x = 0; x < maze.Count - 1; x++)
-                    for (int y = 0; y < ((ArrayList)maze[x]).Count; y++)
-                        if ((int)((ArrayList)maze[x])[y] != 0 && !arrayListContains(new Position(x, y), path))
-                            ((ArrayList)maze[x])[y] = null;
 
                 return true;
             }
@@ -211,8 +233,9 @@ namespace Assignment1
         }
 
         static bool DLS(int threshhold) {
+            timer.Start();
             Stack<Position> frontier = new Stack<Position>();
-            HashSet<Position> explored = new HashSet<Position>();
+            explored = new HashSet<Position>();
             paths = new ArrayList();
 
             // Add initial State to frontier
@@ -254,24 +277,21 @@ namespace Assignment1
                     foreach (Position pos in tempFront)
                         if ((int)((ArrayList)maze[pos.x])[pos.y] > 0 && !stackContains(pos, frontier) && !hashContains(pos, explored))
                             frontier.Push(pos);
+                    if (frontier.Count > memory)
+                        memory = frontier.Count;
                 }
             }
+            timer.Stop();
 
             // Found the goal
             if (stackContains(goal, frontier)) {
                 // Find the final path
-                ArrayList path = new ArrayList();
+                solPath = new ArrayList();
                 foreach (ArrayList list in paths)
                     if (canReach(goal, (Position)list[list.Count - 1])) {
-                        path = list;
+                        solPath = list;
                         break;
                     }
-
-                // Display path
-                for (int x = 0; x < maze.Count - 1; x++)
-                    for (int y = 0; y < ((ArrayList)maze[x]).Count; y++)
-                        if ((int)((ArrayList)maze[x])[y] != 0 && !arrayListContains(new Position(x, y), path))
-                            ((ArrayList)maze[x])[y] = null;
 
                 return true;
             }
@@ -281,8 +301,9 @@ namespace Assignment1
         }
 
         static bool UCS() {
+            timer.Restart();
             PriorityQueue frontier = new PriorityQueue();
-            HashSet<Position> explored = new HashSet<Position>();
+            explored = new HashSet<Position>();
             paths = new ArrayList();
 
             // Add initial State to frontier
@@ -339,23 +360,20 @@ namespace Assignment1
                                         pos2.cost = pos.cost;
                         }
                     }
+                if (frontier.Count > memory)
+                    memory = frontier.Count;
             }
+            timer.Stop();
 
             // Found the goal
             if (found) {
                 // Find the final path
-                ArrayList path = new ArrayList();
+                solPath = new ArrayList();
                 foreach (ArrayList list in paths)
                     if (canReach(goal, (Position)list[list.Count - 1])) {
-                        path = list;
+                        solPath = list;
                         break;
                     }
-
-                // Display path
-                for (int x = 0; x < maze.Count - 1; x++)
-                    for (int y = 0; y < ((ArrayList)maze[x]).Count; y++)
-                        if ((int)((ArrayList)maze[x])[y] != 0 && !arrayListContains(new Position(x, y), path))
-                            ((ArrayList)maze[x])[y] = null;
 
                 return true;
             }
@@ -365,6 +383,7 @@ namespace Assignment1
         }
 
         static bool ItDeep() {
+            timer.Restart();
             int threshhold = 0;
 
             while (threshhold <= maze.Count) {
@@ -498,6 +517,26 @@ namespace Assignment1
                     min = pos;
 
             return min;
+        }
+    }
+
+    class Solution
+    {
+        public int memory;
+        public int nodesExplored;
+        public long executionTime;
+        public int pathLength;
+        public int cost;
+
+        public Solution() {
+        }
+
+        public Solution(int memory, int nodesExplored, long executionTime, int pathLength, int cost) {
+            this.memory = memory;
+            this.nodesExplored = nodesExplored;
+            this.executionTime = executionTime;
+            this.pathLength = pathLength;
+            this.cost = cost;
         }
     }
 
