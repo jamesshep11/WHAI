@@ -55,11 +55,6 @@ public class main {
             }
         } else
             System.out.println("ALGORITHM FAILED: A path could not be found.");
-
-        /*System.out.println();
-        for (Position pos : solPath){
-            System.out.println(pos);
-        }*/
     }
 
     static void readFromFile(String fileName) {
