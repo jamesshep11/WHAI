@@ -18,7 +18,7 @@ import java.util.*;
  *
  * @author MC
  */
-public class MonteCarloPlayer implements Player
+public class BanditPlayer implements Player
 {
     Socket connectToServer;
 
@@ -33,19 +33,19 @@ public class MonteCarloPlayer implements Player
 
     int Port = 2001;
     String Server = "Local";
-    String PlayerName = "MonteCarloPlayer";
+    String PlayerName = "BanditPlayer";
 
-    public MonteCarloPlayer()
+    public BanditPlayer()
     {
-        this("Local", 2001, "MonteCarloPlayer");
+        this("Local", 2001, "BanditPlayer");
     }
 
-    public MonteCarloPlayer(String name)
+    public BanditPlayer(String name)
     {
         this("Local", 2001, name);
     }
 
-    public MonteCarloPlayer(String server, int port, String name)
+    public BanditPlayer(String server, int port, String name)
     {
         PlayerName = name;
         Server= server;
@@ -169,23 +169,32 @@ public class MonteCarloPlayer implements Player
                     availableSlots.add(new Position(c, r, 0));
             }
 
-        Position pos = monteCarlo(temp, availableSlots);
+        Position pos = bandit(temp, availableSlots);
 
         return pos.toString();
     }
 
-    private Position monteCarlo(BoardDataStructure board, ArrayList<Position> slots){
+    private Position bandit(BoardDataStructure board, ArrayList<Position> slots){
+        // play random games
+        int pathsPlayed = 0; // N
         while ((System.currentTimeMillis() - startTime) < ResponseTime*1000*0.1){
             for (Position pos : slots){
                 board.Board[pos.getCol()][pos.getRow()] = Side;
                 int value = playRandomGame(board);
-                pos.setValue((pos.getValue() + value)/2);
+                pos.setValue(pos.getValue() + value); // wi
+                pos.setPlayCount(pos.getPlayCount() + 1); // ni
                 board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
+                pathsPlayed++;
             }
         }
 
+        // calculate selection probability for each position
+        for (Position pos : slots)
+            pos.setSelectionProbability((pos.getValue()/(pos.getPlayCount()*1.0) + 2*(Math.log(pathsPlayed)/pos.getPlayCount())));
+
+        // select node with greatest probability
         Collections.shuffle(slots);
-        slots.sort(Comparator.comparingInt(Position::getValue));
+        slots.sort(Comparator.comparingDouble(Position::getSelectionProbability));
 
         return slots.get(slots.size()-1);
     }
@@ -193,7 +202,6 @@ public class MonteCarloPlayer implements Player
     private int playRandomGame(BoardDataStructure board){
         int winner = BoardDataStructure.Empty;
         int turn = Side;
-        int count = 0;
         while(winner == BoardDataStructure.Empty){
             // next player's turn
             turn = turn == BoardDataStructure.BlueMove ? BoardDataStructure.RedMove : BoardDataStructure.BlueMove;
@@ -203,17 +211,9 @@ public class MonteCarloPlayer implements Player
             board.Board[col][row] = turn;
             // check if there's a winner
             winner = board.CheckWinner();
-            // count number of moves
-            count++;
         }
 
-        int value;
-        if (winner == Side)
-            value = Integer.MAX_VALUE - count;
-        else
-            value = Integer.MIN_VALUE + count;
-
-        return value;
+        return winner == this.Side ? 1 : 0;
     }
     
 }

@@ -5,6 +5,8 @@ public class Position {
     private int col;
     private int row;
     private int value;
+    private int playCount = 0; // Number of times this node was played (for bandit method)
+    private double selectionProbability = 0; // For bandit method
 
     public Position(int col, int row) {
         this.col = col;
@@ -39,6 +41,22 @@ public class Position {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getPlayCount() {
+        return playCount;
+    }
+
+    public void setPlayCount(int playCount) {
+        this.playCount = playCount;
+    }
+
+    public double getSelectionProbability() {
+        return selectionProbability;
+    }
+
+    public void setSelectionProbability(double selectionProbability) {
+        this.selectionProbability = selectionProbability;
     }
 
     @Override

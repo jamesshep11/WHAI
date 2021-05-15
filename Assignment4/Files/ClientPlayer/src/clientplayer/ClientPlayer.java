@@ -128,9 +128,9 @@ public class ClientPlayer {
             {
                 if(server.equals(""))
                 {
-                    new RandomPlayer("RandomPlayer " + timenow);
+                    new BanditPlayer("BanditPlayer " + timenow);
                 }
-                else new RandomPlayer(server, port, "RandomPlayer " + timenow);          
+                else new BanditPlayer(server, port, "BanditPlayer " + timenow);
             }
             
             
