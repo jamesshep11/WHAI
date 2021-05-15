@@ -41,3 +41,9 @@ James: 1 vs MonteCarloPlayer Wed May 05 20:11:21 SAST 2021: 0
 James: 1 vs MonteCarloPlayer Wed May 05 20:18:16 SAST 2021: 0
 James: 1 vs BanditPlayer Sat May 15 17:29:01 SAST 2021: 0
 James: 0 vs MonteCarloPlayer Sat May 15 17:30:28 SAST 2021: 1
+James: 0 vs MonteCarloPlayer Sat May 15 17:42:16 SAST 2021: 1
+James: 1 vs MonteCarloPlayer Sat May 15 17:47:22 SAST 2021: 0
+James: 0 vs MonteCarloPlayer Sat May 15 17:50:37 SAST 2021: 1
+James: 1 vs MinMaxPlayer Sat May 15 17:53:10 SAST 2021: 0
+James: 1 vs MinMaxPlayer Sat May 15 17:56:30 SAST 2021: 0
+James: 1 vs MinMaxPlayer Sat May 15 17:57:11 SAST 2021: 0

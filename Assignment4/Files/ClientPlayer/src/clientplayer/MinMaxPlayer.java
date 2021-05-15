@@ -194,7 +194,7 @@ public class MinMaxPlayer implements Player
 
         int val = board.CheckWinner();
         if (val == Side)
-            return val-depth;
+            return val/depth;
         if (val != BoardDataStructure.Empty)
             return Integer.MIN_VALUE;
 
@@ -217,7 +217,7 @@ public class MinMaxPlayer implements Player
 
         int val = board.CheckWinner();
         if (val == Side)
-            return val-depth;
+            return val/depth;
         if (val != BoardDataStructure.Empty)
             return Integer.MIN_VALUE;
 

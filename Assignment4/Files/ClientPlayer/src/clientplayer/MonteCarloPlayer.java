@@ -178,8 +178,8 @@ public class MonteCarloPlayer implements Player
         while ((System.currentTimeMillis() - startTime) < ResponseTime*1000*0.1){
             for (Position pos : slots){
                 board.Board[pos.getCol()][pos.getRow()] = Side;
-                int value = playRandomGame(board);
-                pos.setValue((pos.getValue() + value)/2);
+                int value = playRandomGame(board, slots);
+                pos.setValue(pos.getValue() + value);
                 board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
             }
         }
@@ -190,7 +190,7 @@ public class MonteCarloPlayer implements Player
         return slots.get(slots.size()-1);
     }
 
-    private int playRandomGame(BoardDataStructure board){
+    private int playRandomGame(BoardDataStructure board, ArrayList<Position> slots){
         int winner = BoardDataStructure.Empty;
         int turn = Side;
         int count = 0;
@@ -198,22 +198,16 @@ public class MonteCarloPlayer implements Player
             // next player's turn
             turn = turn == BoardDataStructure.BlueMove ? BoardDataStructure.RedMove : BoardDataStructure.BlueMove;
             // make a random move
-            int col = r.nextInt(BoardSize);
-            int row = r.nextInt(BoardSize);
-            board.Board[col][row] = turn;
+            int rand = r.nextInt(slots.size());
+            Position rando = slots.get(rand);
+            board.Board[rando.getCol()][rando.getRow()] = turn;
             // check if there's a winner
             winner = board.CheckWinner();
             // count number of moves
             count++;
         }
 
-        int value;
-        if (winner == Side)
-            value = Integer.MAX_VALUE - count;
-        else
-            value = Integer.MIN_VALUE + count;
-
-        return value;
+        return winner == Side ? 1/count : -1/count;
     }
     
 }
