@@ -1,49 +1,9 @@
-RandomPlayer Fri Apr 23 13:32:30 SAST 2021: 1 vs RandomPlayer Fri Apr 23 13:34:35 SAST 2021: 0
-RandomPlayer Fri Apr 23 13:36:45 SAST 2021: 0 vs James: 1
-RandomPlayer Fri Apr 23 16:50:45 SAST 2021: 0 vs James: 1
-James: 1 vs RandomPlayer Fri Apr 23 16:53:00 SAST 2021: 0
-James: 1 vs RandomPlayer Fri Apr 23 16:56:27 SAST 2021: 0
-RandomPlayer Fri Apr 23 16:57:03 SAST 2021: 0 vs James: 1
-James: 1 vs RandomPlayer Mon Apr 26 12:09:27 SAST 2021: 0
-James: 1 vs RandomPlayer Mon Apr 26 12:12:14 SAST 2021: 0
-RandomPlayer Mon Apr 26 12:15:36 SAST 2021: 0 vs RandomPlayer Mon Apr 26 12:15:49 SAST 2021: 1
-James: 1 vs RandomPlayer Mon Apr 26 12:16:31 SAST 2021: 0
-James: 0 vs RandomPlayer Mon Apr 26 12:25:42 SAST 2021: 1
-James: 1 vs RandomPlayer Mon Apr 26 12:37:06 SAST 2021: 0
-James: 0 vs RandomPlayer Mon Apr 26 12:43:24 SAST 2021: 1
-James: 0 vs RandomPlayer Wed Apr 28 10:39:26 SAST 2021: 1
-James: 0 vs RandomPlayer Wed Apr 28 10:41:13 SAST 2021: 1
-James: 0 vs RandomPlayer Wed Apr 28 10:47:27 SAST 2021: 1
-James: 0 vs RandomPlayer Wed Apr 28 10:51:27 SAST 2021: 1
-James: 0 vs RandomPlayer Thu Apr 29 17:21:35 SAST 2021: 1
-James: 0 vs MinMaxPlayer Thu Apr 29 17:23:29 SAST 2021: 1
-James: 0 vs MinMaxPlayer Thu Apr 29 17:27:13 SAST 2021: 1
-James: 0 vs MinMaxPlayer Thu Apr 29 17:30:07 SAST 2021: 1
-James: 0 vs MinMaxPlayer Thu Apr 29 17:34:21 SAST 2021: 1
-James: 1 vs MinMaxPlayer Thu Apr 29 17:35:09 SAST 2021: 0
-James: 1 vs MinMaxPlayer Thu Apr 29 17:36:09 SAST 2021: 0
-James: 0 vs MinMaxPlayer Thu Apr 29 17:37:16 SAST 2021: 1
-James: 1 vs MinMaxPlayer Thu Apr 29 17:40:27 SAST 2021: 0
-James: 1 vs MinMaxPlayer Thu Apr 29 17:41:35 SAST 2021: 0
-RandomPlayer Thu Apr 29 17:42:17 SAST 2021: 1 vs MinMaxPlayer Thu Apr 29 17:42:28 SAST 2021: 0
-James: 0 vs MinMaxPlayer Thu Apr 29 17:43:02 SAST 2021: 1
-James: 1 vs MinMaxPlayer Thu Apr 29 17:46:19 SAST 2021: 0
-James: 1 vs MinMaxPlayer Thu Apr 29 17:47:07 SAST 2021: 0
-James: 1 vs MinMaxPlayer Thu Apr 29 17:59:28 SAST 2021: 0
-James: 1 vs MonteCarloPlayer Wed May 05 19:25:00 SAST 2021: 0
-James: 0 vs MonteCarloPlayer Wed May 05 19:26:46 SAST 2021: 1
-James: 0 vs MonteCarloPlayer Wed May 05 19:28:15 SAST 2021: 1
-James: 0 vs MonteCarloPlayer Wed May 05 19:29:14 SAST 2021: 1
-James: 1 vs MonteCarloPlayer Wed May 05 19:34:40 SAST 2021: 0
-James: 1 vs MonteCarloPlayer Wed May 05 19:45:06 SAST 2021: 0
-James: 1 vs MonteCarloPlayer Wed May 05 20:06:25 SAST 2021: 0
-James: 1 vs MonteCarloPlayer Wed May 05 20:11:21 SAST 2021: 0
-James: 1 vs MonteCarloPlayer Wed May 05 20:18:16 SAST 2021: 0
-James: 1 vs BanditPlayer Sat May 15 17:29:01 SAST 2021: 0
-James: 0 vs MonteCarloPlayer Sat May 15 17:30:28 SAST 2021: 1
-James: 0 vs MonteCarloPlayer Sat May 15 17:42:16 SAST 2021: 1
-James: 1 vs MonteCarloPlayer Sat May 15 17:47:22 SAST 2021: 0
-James: 0 vs MonteCarloPlayer Sat May 15 17:50:37 SAST 2021: 1
-James: 1 vs MinMaxPlayer Sat May 15 17:53:10 SAST 2021: 0
-James: 1 vs MinMaxPlayer Sat May 15 17:56:30 SAST 2021: 0
-James: 1 vs MinMaxPlayer Sat May 15 17:57:11 SAST 2021: 0
+MonteCarloPlayer Mon May 17 10:18:56 SAST 2021: 8 vs RandomPlayer Mon May 17 10:18:43 SAST 2021: 0
+
+
+MonteCarloPlayer Mon May 17 13:45:27 SAST 2021: 6 vs MonteCarloPlayer Mon May 17 13:45:19 SAST 2021: 2
+BanditPlayer Mon May 17 15:03:37 SAST 2021: 5 vs MonteCarloPlayer Mon May 17 15:03:29 SAST 2021: 3
+RandomPlayer Mon May 17 17:02:57 SAST 2021: 0 vs BanditPlayer Mon May 17 17:02:52 SAST 2021: 8
+MonteCarloPlayer Mon May 17 18:36:17 SAST 2021: 1 vs BanditPlayer Mon May 17 18:36:24 SAST 2021: 0
+BanditPlayer Mon May 17 18:57:00 SAST 2021: 1 vs BanditPlayer Mon May 17 18:57:08 SAST 2021: 7
+BanditPlayer Mon May 17 20:32:11 SAST 2021: 5 vs BanditPlayer Mon May 17 20:32:02 SAST 2021: 3

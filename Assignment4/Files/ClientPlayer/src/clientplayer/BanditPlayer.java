@@ -177,7 +177,7 @@ public class BanditPlayer implements Player
     private Position bandit(BoardDataStructure board, ArrayList<Position> slots){
         // play random games
         int pathsPlayed = 0; // N
-        while ((System.currentTimeMillis() - startTime) < ResponseTime*1000*0.1){
+        while ((System.currentTimeMillis() - startTime) < ResponseTime*1000*0.99){
             for (Position pos : slots){
                 board.Board[pos.getCol()][pos.getRow()] = Side;
                 int value = playRandomGame(board, slots);
@@ -200,20 +200,23 @@ public class BanditPlayer implements Player
     }
 
     private int playRandomGame(BoardDataStructure board, ArrayList<Position> slots){
+        ArrayList<Position> temp = (ArrayList<Position>)slots.clone();
+
         int winner = BoardDataStructure.Empty;
         int turn = Side;
-        while(winner == BoardDataStructure.Empty){
+        while(winner == BoardDataStructure.Empty && !temp.isEmpty()){
             // next player's turn
             turn = turn == BoardDataStructure.BlueMove ? BoardDataStructure.RedMove : BoardDataStructure.BlueMove;
             // make a random move
-            int rand = r.nextInt(slots.size());
-            Position rando = slots.get(rand);
+            int rand = r.nextInt(temp.size());
+            Position rando = temp.remove(rand);
             board.Board[rando.getCol()][rando.getRow()] = turn;
             // check if there's a winner
             winner = board.CheckWinner();
+            // count number of moves
         }
 
-        return winner == this.Side ? 1 : -1;
+        return winner == Side ? 1 : -1;
     }
     
 }

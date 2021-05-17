@@ -151,26 +151,23 @@ public class MinMaxPlayer implements Player
     public String MakeMove(String board)
     {
         // Convert board string to board
+        ArrayList<Position> emptySpots = new ArrayList<>();
         BoardDataStructure temp = new BoardDataStructure(BoardSize);
         StringTokenizer st = new StringTokenizer(board, ",");
         for(int r =0; r < BoardSize; r++)
             for(int c = 0; c < BoardSize; c++) {
                 int x = Integer.parseInt(st.nextToken());
                 temp.Board[c][r] = x;
+                // Find empty positions
+                if (x == BoardDataStructure.Empty)
+                    emptySpots.add(new Position(c, r));
             }
 
-        Position pos = MinMax(temp);
+        Position pos = MinMax(temp, emptySpots);
         return pos.toString();
     }
 
-    private Position MinMax(BoardDataStructure board){
-        // Find empty positions
-        ArrayList<Position> emptySpots = new ArrayList<>();
-        for (int row = 0; row < board.BoardSize; row++)
-            for (int col = 0; col < board.BoardSize; col++)
-                if (board.Board[col][row] == BoardDataStructure.Empty)
-                    emptySpots.add(new Position(col, row));
-
+    private Position MinMax(BoardDataStructure board, ArrayList<Position> emptySpots){
         // Perform MinMax algorithm
         int val = Integer.MIN_VALUE;
         int count = 0;
@@ -185,6 +182,7 @@ public class MinMaxPlayer implements Player
         }
 
         // find Position that leads to the max result
+        Collections.shuffle(emptySpots);
         emptySpots.sort(Comparator.comparingInt(Position::getValue));
         return emptySpots.get(emptySpots.size()-1);
     }
@@ -194,7 +192,7 @@ public class MinMaxPlayer implements Player
 
         int val = board.CheckWinner();
         if (val == Side)
-            return val/depth;
+            return 1/depth;
         if (val != BoardDataStructure.Empty)
             return Integer.MIN_VALUE;
 
@@ -217,7 +215,7 @@ public class MinMaxPlayer implements Player
 
         int val = board.CheckWinner();
         if (val == Side)
-            return val/depth;
+            return 1/depth;
         if (val != BoardDataStructure.Empty)
             return Integer.MIN_VALUE;
 
