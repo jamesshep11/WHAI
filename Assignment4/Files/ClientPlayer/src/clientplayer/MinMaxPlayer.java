@@ -174,7 +174,7 @@ public class MinMaxPlayer implements Player
         while (count < emptySpots.size()){
             Position pos = emptySpots.remove(0);
             board.Board[pos.getCol()][pos.getRow()] = Side;
-            val = Math.max(val, MinVal(board, emptySpots, 1));
+            val = Math.max(val, MinVal(board, emptySpots));
             board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
             pos.setValue(val);
             emptySpots.add(pos);
@@ -184,49 +184,43 @@ public class MinMaxPlayer implements Player
         // find Position that leads to the max result
         Collections.shuffle(emptySpots);
         emptySpots.sort(Comparator.comparingInt(Position::getValue));
+        for(Position pos : emptySpots)
+            System.out.print(pos.getValue() + ", ");
+        System.out.println();
+
         return emptySpots.get(emptySpots.size()-1);
     }
 
-    private int MaxVal(BoardDataStructure board, ArrayList<Position> slots, int depth){
-        depth++;
-
+    private int MaxVal(BoardDataStructure board, ArrayList<Position> slots){
         int val = board.CheckWinner();
-        if (val == Side)
-            return 1/depth;
         if (val != BoardDataStructure.Empty)
-            return Integer.MIN_VALUE;
+            return val == Side ? 1 : -1;
 
         val = Integer.MIN_VALUE;
         int count = 0;
         while (count < slots.size()){
             Position pos = slots.remove(0);
             board.Board[pos.getCol()][pos.getRow()] = Side;
-            val = Math.max(val, MinVal(board, slots, depth));
+            val = Math.max(val, MinVal(board, slots));
             board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
-            pos.setValue(val);
             slots.add(pos);
             count++;
         }
         return val;
     }
 
-    private int MinVal(BoardDataStructure board, ArrayList<Position> slots, int depth){
-        depth++;
-
+    private int MinVal(BoardDataStructure board, ArrayList<Position> slots){
         int val = board.CheckWinner();
-        if (val == Side)
-            return 1/depth;
         if (val != BoardDataStructure.Empty)
-            return Integer.MIN_VALUE;
+            return val == Side ? 1 : -1;
 
         val = Integer.MAX_VALUE;
         int count = 0;
         while (count < slots.size()){
             Position pos = slots.remove(0);
-            board.Board[pos.getCol()][pos.getRow()] = Side;
-            val = Math.min(val, MaxVal(board, slots, depth));
+            board.Board[pos.getCol()][pos.getRow()] = Side == 1 ? 2 : 1;
+            val = Math.min(val, MaxVal(board, slots));
             board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
-            pos.setValue(val);
             slots.add(pos);
             count++;
         }
