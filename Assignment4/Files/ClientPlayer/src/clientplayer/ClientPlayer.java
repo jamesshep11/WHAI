@@ -112,25 +112,25 @@ public class ClientPlayer {
             {
                if(server.equals(""))
                 {
-                    new MonteCarloPlayer("MonteCarloPlayer " + timenow);
+                    new MonteCarloPlayer("MyMonteCarloPlayer " + timenow);
                 }
-                else new MonteCarloPlayer(server, port, "MonteCarloPlayer " + timenow);
+                else new MonteCarloPlayer(server, port, "MyMonteCarloPlayer " + timenow);
             }
             else if(x==3)
             {
                 if(server.equals(""))
                 {
-                    new MinMaxPlayer("MinMaxPlayer " + timenow);
+                    new MinMaxPlayer("MyMinMaxPlayer " + timenow);
                 }
-                else new MinMaxPlayer(server, port, "MinMaxPlayer " + timenow);
+                else new MinMaxPlayer(server, port, "MyMinMaxPlayer " + timenow);
             }           
             else if(x==4)
             {
                 if(server.equals(""))
                 {
-                    new BanditPlayer("BanditPlayer " + timenow);
+                    new BanditPlayer("MyBanditPlayer " + timenow);
                 }
-                else new BanditPlayer(server, port, "BanditPlayer " + timenow);
+                else new BanditPlayer(server, port, "MyBanditPlayer " + timenow);
             }
             
             

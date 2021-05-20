@@ -68,3 +68,15 @@ RandomPlayer Wed May 19 20:27:29 SAST 2021: 1 vs MinMaxPlayer Wed May 19 20:27:3
 RandomPlayer Wed May 19 20:28:13 SAST 2021: 1 vs MinMaxPlayer Wed May 19 20:28:18 SAST 2021: 0
 MinMaxPlayer Wed May 19 20:28:57 SAST 2021: 0 vs RandomPlayer Wed May 19 20:29:05 SAST 2021: 1
 MinMaxPlayer Wed May 19 20:30:14 SAST 2021: 0 vs RandomPlayer Wed May 19 20:30:25 SAST 2021: 1
+MonteCarloPlayer Wed May 19 20:36:04 SAST 2021: 1 vs MonteCarloPlayer Wed May 19 20:36:17 SAST 2021: 0
+MyMonteCarloPlayer Wed May 19 20:43:04 SAST 2021: 1 vs MonteCarloPlayer Wed May 19 20:43:13 SAST 2021: 0
+MyMonteCarloPlayer Wed May 19 20:49:36 SAST 2021: 0 vs MonteCarloPlayer Wed May 19 20:49:45 SAST 2021: 1
+MyMonteCarloPlayer Wed May 19 22:15:29 SAST 2021: 2 vs MonteCarloPlayer Wed May 19 22:15:39 SAST 2021: 6
+MyMonteCarloPlayer Thu May 20 16:12:08 SAST 2021: 6 vs MonteCarloPlayer Thu May 20 16:12:20 SAST 2021: 2
+MonteCarloPlayer Thu May 20 16:22:02 SAST 2021: 5 vs MonteCarloPlayer Thu May 20 16:22:17 SAST 2021: 3
+MonteCarloPlayer Thu May 20 16:27:29 SAST 2021: 3 vs MyMonteCarloPlayer Thu May 20 16:27:20 SAST 2021: 5
+MyMonteCarloPlayer Thu May 20 16:34:10 SAST 2021: 6 vs MonteCarloPlayer Thu May 20 16:34:18 SAST 2021: 2
+MyMonteCarloPlayer Thu May 20 16:44:38 SAST 2021: 5 vs BanditPlayer Thu May 20 16:44:45 SAST 2021: 3
+MyBanditPlayer Thu May 20 16:53:57 SAST 2021: 5 vs MonteCarloPlayer Thu May 20 16:54:05 SAST 2021: 3
+MyBanditPlayer Thu May 20 17:04:02 SAST 2021: 4 vs BanditPlayer Thu May 20 17:04:17 SAST 2021: 4
+MyBanditPlayer Thu May 20 17:13:22 SAST 2021: 6 vs BanditPlayer Thu May 20 17:13:32 SAST 2021: 2

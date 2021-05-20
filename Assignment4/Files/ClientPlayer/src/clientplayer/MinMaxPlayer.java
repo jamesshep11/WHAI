@@ -184,9 +184,6 @@ public class MinMaxPlayer implements Player
         // find Position that leads to the max result
         Collections.shuffle(emptySpots);
         emptySpots.sort(Comparator.comparingInt(Position::getValue));
-        for(Position pos : emptySpots)
-            System.out.print(pos.getValue() + ", ");
-        System.out.println();
 
         return emptySpots.get(emptySpots.size()-1);
     }
@@ -218,7 +215,7 @@ public class MinMaxPlayer implements Player
         int count = 0;
         while (count < slots.size()){
             Position pos = slots.remove(0);
-            board.Board[pos.getCol()][pos.getRow()] = Side == 1 ? 2 : 1;
+            board.Board[pos.getCol()][pos.getRow()] = Side == BoardDataStructure.BlueMove ? BoardDataStructure.RedMove : BoardDataStructure.BlueMove;
             val = Math.min(val, MaxVal(board, slots));
             board.Board[pos.getCol()][pos.getRow()] = BoardDataStructure.Empty;
             slots.add(pos);
