@@ -301,7 +301,19 @@ namespace Assignment1
         }
 
         static bool UCS() {
-            timer.Restart();
+            ArrayList path;
+            if (UCSForward()) {
+                path = solPath;
+                if (UCSBackwards()) {
+                    path.AddRange(solPath);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        static bool UCSForward() {
             PriorityQueue frontier = new PriorityQueue();
             explored = new HashSet<Position>();
             paths = new ArrayList();
@@ -319,17 +331,18 @@ namespace Assignment1
             foreach (int x in (ArrayList)maze[maze.Count - 1])
                 if (x > 0) {
                     int pos = ((ArrayList)maze[maze.Count - 1]).IndexOf(x);
-                    goal = new Position(maze.Count - 1, pos, (int)((ArrayList)maze[maze.Count-1])[pos]);
+                    goal = new Position(maze.Count - 1, pos, (int)((ArrayList)maze[maze.Count - 1])[pos]);
                     break;
                 }
 
             bool found = false;
-            while (frontier.Count > 0) {
+            Position curPos = new Position(0, 0);
+            while (curPos.y < maze.Count/2) {
                 // explore a new position
-                Position curPos = frontier.Dequeue();
+                curPos = frontier.Dequeue();
 
                 // Have we found the goal?
-                if (curPos.x == goal.x && curPos.y == goal.y) {
+                if (curPos.y >= maze.Count / 2) {
                     found = true;
                     break;
                 }
@@ -340,7 +353,7 @@ namespace Assignment1
                 // Find new states for the frontier
                 ArrayList tempFront = new ArrayList();
                 if (curPos.y - 1 < ((ArrayList)maze[0]).Count)
-                    tempFront.Add(new Position(curPos.x, curPos.y - 1, curPos.cost + (int)((ArrayList)maze[curPos.x])[curPos.y-1]));
+                    tempFront.Add(new Position(curPos.x, curPos.y - 1, curPos.cost + (int)((ArrayList)maze[curPos.x])[curPos.y - 1]));
                 if (curPos.x + 1 < maze.Count)
                     tempFront.Add(new Position(curPos.x + 1, curPos.y, curPos.cost + (int)((ArrayList)maze[curPos.x + 1])[curPos.y]));
                 if (curPos.y + 1 >= 0)
@@ -363,17 +376,88 @@ namespace Assignment1
                 if (frontier.Count > memory)
                     memory = frontier.Count;
             }
-            timer.Stop();
 
             // Found the goal
             if (found) {
                 // Find the final path
-                solPath = new ArrayList();
-                foreach (ArrayList list in paths)
-                    if (canReach(goal, (Position)list[list.Count - 1])) {
-                        solPath = list;
-                        break;
+                solPath = (ArrayList)paths[paths.Count - 1];
+
+                return true;
+            }
+
+            // Didn't find the goal
+            return false;
+        }
+
+        static bool UCSBackwards() {
+            PriorityQueue frontier = new PriorityQueue();
+            explored = new HashSet<Position>();
+            paths = new ArrayList();
+
+            // Add initial State to frontier
+            foreach (int x in (ArrayList)maze[maze.Count - 1])
+                if (x > 0) {
+                    int pos = ((ArrayList)maze[maze.Count - 1]).IndexOf(x);
+                    frontier.Enqueue(new Position(maze.Count - 1, pos, (int)((ArrayList)maze[maze.Count - 1])[pos]));
+                    break;
+                }
+
+            // Find Goal
+            Position goal = new Position(0, 0);
+            foreach (int x in (ArrayList)maze[0])
+                if (x > 0) {
+                    int pos = ((ArrayList)maze[0]).IndexOf(x);
+                    goal = new Position(0, pos, (int)((ArrayList)maze[0])[pos]);
+                    break;
+                }
+
+            bool found = false;
+            Position curPos = new Position(0, 0);
+            while (curPos.y >= maze.Count / 2) {
+                // explore a new position
+                curPos = frontier.Dequeue();
+
+                // Have we found the goal?
+                if (curPos.y < maze.Count / 2) {
+                    found = true;
+                    break;
+                }
+
+                explored.Add(curPos);
+                addToPath(curPos);
+
+                // Find new states for the frontier
+                ArrayList tempFront = new ArrayList();
+                if (curPos.y - 1 < ((ArrayList)maze[0]).Count)
+                    tempFront.Add(new Position(curPos.x, curPos.y - 1, curPos.cost + (int)((ArrayList)maze[curPos.x])[curPos.y - 1]));
+                if (curPos.x + 1 < maze.Count)
+                    tempFront.Add(new Position(curPos.x + 1, curPos.y, curPos.cost + (int)((ArrayList)maze[curPos.x + 1])[curPos.y]));
+                if (curPos.y + 1 >= 0)
+                    tempFront.Add(new Position(curPos.x, curPos.y + 1, curPos.cost + (int)((ArrayList)maze[curPos.x])[curPos.y + 1]));
+                if (curPos.x - 1 >= 0)
+                    tempFront.Add(new Position(curPos.x - 1, curPos.y, curPos.cost + (int)((ArrayList)maze[curPos.x - 1])[curPos.y]));
+
+                // Add new states to the frontier
+                foreach (Position pos in tempFront)
+                    if ((int)((ArrayList)maze[pos.x])[pos.y] > 0 && !hashContains(pos, explored)) {
+                        if (!priorityQueueContains(pos, frontier))
+                            frontier.Enqueue(pos);
+                        else {
+                            foreach (Position pos2 in frontier)
+                                if (pos.x == pos2.x && pos.y == pos2.y)
+                                    if (pos.cost < pos2.cost)
+                                        pos2.cost = pos.cost;
+                        }
                     }
+                if (frontier.Count > memory)
+                    memory = frontier.Count;
+            }
+
+            // Found the goal
+            if (found) {
+                // Find the final path
+                solPath = (ArrayList)paths[paths.Count - 1];
+                solPath.Reverse();
 
                 return true;
             }
@@ -493,12 +577,12 @@ namespace Assignment1
     class PriorityQueue : Queue
     {
         public PriorityQueue() {
-            
+
         }
 
         public Position Dequeue() {
             Position min = (Position)base.Dequeue();
-            for (int i = 0; i < Count; i++){
+            for (int i = 0; i < Count; i++) {
                 Position pos = (Position)base.Dequeue();
                 if (pos.cost - min.cost < 0) {
                     Enqueue(min);
